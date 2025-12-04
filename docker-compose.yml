@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recon-backend
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///./data/recon.db
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - recon-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: recon-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8888
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - recon-network
+
+networks:
+  recon-network:
+    driver: bridge
+
+volumes:
+  recon-data:

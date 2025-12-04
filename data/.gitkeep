@@ -1,0 +1,3 @@
+# Data directory - keeps scan results
+*.db
+*.sqlite
