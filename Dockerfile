@@ -1,5 +1,5 @@
 # Build stage for Go tools
-FROM golang:1.21-alpine AS go-builder
+FROM golang:1.24-alpine AS go-builder
 
 RUN apk add --no-cache git build-base libpcap-dev
 
