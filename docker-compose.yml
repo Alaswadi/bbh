@@ -24,8 +24,6 @@ services:
     container_name: recon-frontend
     ports:
       - "5173:5173"
-    environment:
-      - VITE_API_URL=http://localhost:8888
     depends_on:
       - backend
     restart: unless-stopped

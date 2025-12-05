@@ -6,17 +6,20 @@ COPY package.json ./
 RUN npm install
 
 COPY . .
+
+# Build with API pointing to /api (nginx will proxy)
+ENV VITE_API_URL=/api
 RUN npm run build
 
-# Production stage
-FROM node:20-alpine
+# Production stage with nginx
+FROM nginx:alpine
 
-WORKDIR /app
+# Copy nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN npm install -g serve
-
-COPY --from=builder /app/dist ./dist
+# Copy built frontend
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 5173
 
-CMD ["serve", "-s", "dist", "-l", "5173"]
+CMD ["nginx", "-g", "daemon off;"]
