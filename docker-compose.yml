@@ -24,6 +24,9 @@ services:
     container_name: recon-frontend
     ports:
       - "5173:5173"
+    environment:
+      # Set this to your actual backend URL in Coolify
+      - BACKEND_URL=http://backend:8888
     depends_on:
       - backend
     restart: unless-stopped
